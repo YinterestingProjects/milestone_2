@@ -1,1 +1,5 @@
+# ignore data folder
 data/
+
+# ignore archived files
+archive/
