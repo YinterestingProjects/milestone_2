@@ -3,3 +3,6 @@ data/
 
 # ignore archived files
 archive/
+
+# ignore notebooks checkpoints
+.ipynb_checkpoints/
