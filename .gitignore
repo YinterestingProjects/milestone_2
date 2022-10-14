@@ -6,3 +6,5 @@ archive/
 
 # ignore notebooks checkpoints
 .ipynb_checkpoints/
+modeling/.ipynb_checkpoints/
+cleaning_eda/.ipynb_checkpoints/
