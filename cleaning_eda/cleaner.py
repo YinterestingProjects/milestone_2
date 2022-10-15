@@ -2,7 +2,6 @@ import pandas as pd
 import datetime
 import numpy as np
 
-# testing git
 def process_columns(df):
     # combining specific and generic name columns...
     df['specific_generic_name'] = df['specific_name'].fillna('') + ' ' + df['generic_name'].fillna('')
