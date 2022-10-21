@@ -29,8 +29,26 @@ def process_duplicated_rows(df, method='drop'):
 
 def process_dates(df):    
     df['ship_date'] = df['ship_date'].apply(lambda x: pd.to_datetime(str(x), format='%Y-%m-%d'))
-    df['ship_date_yyyy'] = (pd.to_datetime(df['ship_date']).dt.year).apply(str)
-    df['ship_date_mm'] = (pd.to_datetime(df['ship_date']).dt.month).apply(str)
+    df['ship_date_yyyy'] = (pd.to_datetime(df['ship_date']).dt.year).map(str)
+    df['ship_date_mm'] = (pd.to_datetime(df['ship_date']).dt.month).map(str)
+    
+    mm_dict = {'1':'Jan','2':'Feb','3':'Mar','4':'Apr','5':'May','6':'Jun',
+               '7':'Jul','8':'Aug','9':'Sep','10':'Oct','11':'Nov','12':'Dec'}
+    
+    for k, v in mm_dict.items():
+        if df['ship_date_mm'].str.contains(k).any():
+            index_nums = df[df['ship_date_mm']==k].index
+            for index_num in index_nums:
+                df.at[index_num,'ship_date_mm']=v
+                
+    yyyy_dict = {'2016':'yr_2016','2017':'yr_2017','2018':'yr_2018','2019':'yr_2019','2020':'yr_2020'}
+    
+    for k, v in yyyy_dict.items():
+        if df['ship_date_yyyy'].str.contains(k).any():
+            index_nums = df[df['ship_date_yyyy']==k].index
+            for index_num in index_nums:
+                df.at[index_num,'ship_date_yyyy']=v
+    
     return df
 
 def process_units(df):
