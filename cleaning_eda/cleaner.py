@@ -27,20 +27,10 @@ def process_duplicated_rows(df, method='drop'):
     return df
 
 
-def process_dates(df):
-    df['disp_date'] = df['disp_date'].str[:10]
-    index_num = df[df.values == '3019-07-03'].index
-    df.at[index_num[0],'disp_date']='2019-07-03'
-    
-    df['disp_date'] = df['disp_date'].apply(lambda x: pd.to_datetime(str(x), format='%Y-%m-%d'))
-    df['disp_date_yyyy'] = pd.to_datetime(df['disp_date']).dt.year
-    df['disp_date_mm'] = pd.to_datetime(df['disp_date']).dt.month
-    
+def process_dates(df):    
     df['ship_date'] = df['ship_date'].apply(lambda x: pd.to_datetime(str(x), format='%Y-%m-%d'))
-    df['ship_date_yyyy'] = pd.to_datetime(df['ship_date']).dt.year
-    df['ship_date_mm'] = pd.to_datetime(df['ship_date']).dt.month
-    
-    df['disp_ship_date'] = df['ship_date'] - df['disp_date']
+    df['ship_date_yyyy'] = (pd.to_datetime(df['ship_date']).dt.year).apply(str)
+    df['ship_date_mm'] = (pd.to_datetime(df['ship_date']).dt.month).apply(str)
     return df
 
 def process_units(df):
@@ -49,8 +39,9 @@ def process_units(df):
                  '1':'NO','2':'NO','GA':'GM','22':'GM','24':'GM','GL':'KG'}
     for k, v in unit_dict.items():
         if df['unit'].str.contains(k).any():
-            index_num = df[df['unit']==k].index
-            df.at[index_num,'unit']=v
+            index_nums = df[df['unit']==k].index
+            for index_num in index_nums:
+                df.at[index_num,'unit']=v            
             
     columns = ['unit_NO','unit_KG','unit_LT','unit_MT','unit_M2']
     for column in columns:
@@ -61,8 +52,9 @@ def process_units(df):
                   'MT':'MT','CM':'MT','M2':'M2','C2':'M2'}
     for k, v in unify_dict.items():
         if df['unit'].str.contains(k).any():
-            index_num = df[df['unit']==k].index
-            df.at[index_num,'unit_'+v]=True
+            index_nums = df[df['unit']==k].index
+            for index_num in index_nums:
+                df.at[index_num,'unit_'+v]=True
     
     # generate a column of np.NaN
     df['qty_new'] = np.NaN
@@ -104,6 +96,26 @@ def process_units(df):
     merged_df = pd.concat([df_no, df_kg, df_gm, df_lb, df_mg, df_lt, df_ml, df_c3, df_m3, df_c2, df_m2, df_cm, df_mt])
     return merged_df
 
+def add_gdp_values(df, imf, ctry):
+    df['ctry_org'] = df['ctry_org'].str.upper()
+    df['ctry_ie'] = df['ctry_ie'].str.upper()
+    
+    df_ctry = df.merge(ctry, how='left', left_on='ctry_ie', right_on='code')
+    df_ctry = df_ctry.rename(columns={'value_y':'ctry_ie_name'})
+    
+    ctry_dict = {'G5':'United Kingdom','G2':'United Kingdom','G4':'United Kingdom','G1':'United Kingdom',
+                 'G6':'United Kingdom','G3':'United Kingdom','E1':'Germany','GB':'United Kingdom'}
+    
+    for k, v in ctry_dict.items():
+        if df_ctry['ctry_ie'].str.contains(k).any():
+            index_nums = df_ctry[df_ctry['ctry_ie']==k].index
+            for index_num in index_nums:
+                df_ctry.at[index_num,'ctry_ie_name']=v
+    
+    df_ctry_imf = df_ctry.merge(imf, how='left', left_on='ctry_ie_name', right_on='Country')
+    df_ctry_imf = df_ctry_imf.rename(columns={'2020':'2020GDP'}).drop(columns=['field','code','Country'])
+    
+    return df_ctry_imf
 
 def cleanup_nulls(df):
     for name in df.columns:
