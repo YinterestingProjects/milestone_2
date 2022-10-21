@@ -3,6 +3,8 @@ import pandas as pd
 import numpy as np
 from datetime import datetime
 from category_encoders.target_encoder import TargetEncoder
+from imblearn.pipeline import Pipeline as ImbalancePipeline
+from imblearn.over_sampling import SMOTE
 
 # sklearn
 from sklearn.pipeline import make_pipeline, Pipeline
@@ -10,6 +12,7 @@ from sklearn.compose import make_column_transformer
 from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.preprocessing import StandardScaler
 from sklearn.utils import resample
+
 
 
 # environment variables
@@ -46,8 +49,7 @@ def upsampler(df_x, df_y): # https://www.analyticsvidhya.com/blog/2021/06/5-tech
     return new_x, new_y
 
 
-def gridsearch_pipeline(X_train, y_train, classifer, grid_param): 
-    # set
+def gridsearch_pipeline(X_train, y_train, classifer, grid_param, imbalance_pipe=False): 
     clf = classifer
     params = grid_param
     categorical_var = ['species_code', 'wildlf_desc', 'wildlf_cat',
@@ -59,10 +61,19 @@ def gridsearch_pipeline(X_train, y_train, classifer, grid_param):
     ct_target = make_column_transformer((TargetEncoder(), categorical_var),
                                         remainder='passthrough')
 
-    pipe = Pipeline([('targetEncoding', ct_target), 
-                     ('standardScaler', StandardScaler()), 
-                     ('clf', clf)
-                    ], verbose=False)
+    
+    if imbalance_pipe:
+        pipe = ImbalancePipeline([('targetEncoding', ct_target), 
+                                  ('sampling', SMOTE()),
+                                  ('standardScaler', StandardScaler()),
+                                  ('clf', clf)
+                                ], verbose=False)
+        
+    else:
+        pipe = Pipeline([('targetEncoding', ct_target), 
+                         ('standardScaler', StandardScaler()), 
+                         ('clf', clf)
+                        ], verbose=False)
 
     grid_pipe = GridSearchCV(pipe,
                              param_grid=params,
