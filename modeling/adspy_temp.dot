@@ -1,0 +1,33 @@
+digraph Tree {
+node [shape=box, style="filled", color="black", fontname="helvetica"] ;
+edge [fontname="helvetica"] ;
+0 [label="species_code <= 0.003\nsamples = 1192878\nvalue = [596439.0, 596439.0]\nclass = cleared", fillcolor="#ffffff"] ;
+1 [label="species_code <= -0.16\nsamples = 1014519\nvalue = [513604.684, 126085.226]\nclass = seized", fillcolor="#eba06a"] ;
+0 -> 1 [labeldistance=2.5, labelangle=45, headlabel="True"] ;
+2 [label="ctry_org <= 4.292\nsamples = 722741\nvalue = [366759.768, 37620.973]\nclass = seized", fillcolor="#e88e4d"] ;
+1 -> 2 ;
+3 [label="samples = 718262\nvalue = [364580.586, 31757.964]\nclass = seized", fillcolor="#e78c4a"] ;
+2 -> 3 ;
+4 [label="samples = 4479\nvalue = [2179.182, 5863.009]\nclass = cleared", fillcolor="#83c1ef"] ;
+2 -> 4 ;
+5 [label="pt_cd <= 0.525\nsamples = 291778\nvalue = [146844.916, 88464.253]\nclass = seized", fillcolor="#f5cdb0"] ;
+1 -> 5 ;
+6 [label="samples = 260903\nvalue = [131655.202, 58141.504]\nclass = seized", fillcolor="#f0b990"] ;
+5 -> 6 ;
+7 [label="samples = 30875\nvalue = [15189.714, 30322.749]\nclass = cleared", fillcolor="#9ccef2"] ;
+5 -> 7 ;
+8 [label="species_code <= 0.722\nsamples = 178359\nvalue = [82834.316, 470353.774]\nclass = cleared", fillcolor="#5caeea"] ;
+0 -> 8 [labeldistance=2.5, labelangle=-45, headlabel="False"] ;
+9 [label="ctry_org <= 0.468\nsamples = 136279\nvalue = [67087.48, 131337.505]\nclass = cleared", fillcolor="#9ecff2"] ;
+8 -> 9 ;
+10 [label="samples = 122341\nvalue = [60963.202, 73623.512]\nclass = cleared", fillcolor="#ddeefb"] ;
+9 -> 10 ;
+11 [label="samples = 13938\nvalue = [6124.278, 57713.993]\nclass = cleared", fillcolor="#4ea7e8"] ;
+9 -> 11 ;
+12 [label="species_code <= 2.266\nsamples = 42080\nvalue = [15746.836, 339016.27]\nclass = cleared", fillcolor="#42a2e6"] ;
+8 -> 12 ;
+13 [label="samples = 24185\nvalue = [11055.521, 74386.924]\nclass = cleared", fillcolor="#56ace9"] ;
+12 -> 13 ;
+14 [label="samples = 17895\nvalue = [4691.315, 264629.345]\nclass = cleared", fillcolor="#3d9fe5"] ;
+12 -> 14 ;
+}
