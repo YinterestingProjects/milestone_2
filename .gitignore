@@ -1,5 +1,7 @@
 # ignore data folder
 data/
+# ignore giant file
+modeling/gridsearch_all_models/figs_pipe_import.joblib
 
 # ignore archived files
 archive/
