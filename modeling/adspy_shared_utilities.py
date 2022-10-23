@@ -8,7 +8,7 @@ import matplotlib.cm as cm
 from matplotlib.colors import ListedColormap, BoundaryNorm
 from sklearn import neighbors
 import matplotlib.patches as mpatches
-import graphviz
+#import graphviz
 from sklearn.tree import export_graphviz
 import matplotlib.patches as mpatches
 
