@@ -1,5 +1,4 @@
-# milestone_2
- predicting illicit wildlife shipments
+## Predicting Illicit Wildlife Shipments
 
 Data (place in Data folder on your local system or update path in notebooks)
 https://drive.google.com/drive/folders/1uGSYPMmUcag_NiP5chsG3Ts4zWtTMuaC?usp=sharing
