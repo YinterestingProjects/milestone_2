@@ -4,7 +4,14 @@ data/
 # ignore archived files
 archive/
 
+# ignore model objects
+*.joblib
+0_amGator/
+1_baldEagle/
+2_python/
+
 # ignore notebooks checkpoints
 .ipynb_checkpoints/
 modeling/.ipynb_checkpoints/
 cleaning_eda/.ipynb_checkpoints/
+___pycache__/
